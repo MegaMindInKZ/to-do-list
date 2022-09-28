@@ -1,6 +1,8 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func main() {
 	config := NewConfig()
@@ -8,14 +10,14 @@ func main() {
 	mux := http.NewServeMux()
 
 	files := http.FileServer(http.Dir(config.Static))
-	mux.Handle("/static/", http.StripPrefix("/static/", files))
+	http.Handle("/static/", http.StripPrefix("/static/", files))
 
 	mux.HandleFunc("/", index)
 
 	server := &http.Server{
-		Addr:    config.Address,
-		Handler: mux,
+		Addr: config.Address,
 	}
+	http.HandleFunc("/hello", hello)
+	http.HandleFunc("/", index)
 	server.ListenAndServe()
-
 }

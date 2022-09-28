@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+.header{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+.logo-container{
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+}
+.logo-container img{
+    height: 20px;
+}
+.logo-text{
+    font-weight: 500;
+    margin-right: 5px;
+    font-family: 'Oswald', sans-serif;
+}
+.header-menu-container{
+    align-items: center;
+    display: flex;
+
+}
+.header-menu-container a{
+    height: 20px;
+    text-decoration: none;
+    margin-right: 10px;
+    color: #808080	;
+}
+.account-container{
+    display: flex;
+    align-items: center;
+}
+.account-container div{
+    margin-right: 5px;
+    padding: 8px;
+    font-size: 20px;
+    border: 2px solid;
+    border-radius: 5px;
+}
+.sign-in{
+    border-color:#0000CD;
+    color: 	#0000CD;
+    transition: color 2s ease-out 100ms;
+}
+.sign-up{
+    border-color: white;
+    background-color: 	#0000CD;
+    color: white;
+}
+.sign-in:hover{
+    background-color: white;
+    color: #0000CD;
+    border-color: 	#0000CD;
+}
+.sign-up:hover{
+    background-color: #0000CD;
+    color: white;
+    border-color: white;
+}

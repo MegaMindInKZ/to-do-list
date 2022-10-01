@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{{ define "base" }}
+<html>
+    <head>
+        {{ template "head" }}
+        <meta http-equiv="Content-Type" content="text/html" ; charset="utf-8">
+        <link rel="stylesheet" href="/static/css/base.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <div class="logo-container">
+                    <div class="logo-text">Tasking</div>
+                    <img src="/static/images/crown.png" alt="">
+                </div>
+                <div class="header-menu-container">
+                    <a href="">Home</a>
+                    <a href="">About</a>
+                    <a href="">Member</a>
+                    <a href="">Enterprise</a>
+                </div>
+                <div class="account-container">
+                    <div class="sign-in">Sign up</div>
+                    <div class="sign-up">Sign in</div>
+                </div>
+            </div>
+        </header>
+        <main>
+            {{ template "content" }}
+        </main>
+        <footer>
+            
+        </footer>
+    </body>
+</html>
+{{ end }}

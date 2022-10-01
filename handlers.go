@@ -11,6 +11,13 @@ func hello(writer http.ResponseWriter, request *http.Request) {
 }
 
 func index(writer http.ResponseWriter, request *http.Request) {
-	t, _ := template.ParseFiles("templates/index.html")
-	t.Execute(writer, "Hello World")
+	h := Hello{
+		hello: "Hello World",
+	}
+	t, _ := template.ParseFiles("templates/base.html", "templates/index.html")
+	t.ExecuteTemplate(writer, "base", h)
+}
+
+type Hello struct {
+	hello string
 }

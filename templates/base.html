@@ -9,10 +9,12 @@
     <body>
         <header>
             <div class="header">
-                <div class="logo-container">
-                    <div class="logo-text">Tasking</div>
-                    <img src="/static/images/crown.png" alt="">
-                </div>
+                <a href="/">
+                    <div class="logo-container">
+                        <div class="logo-text">Tasking</div>
+                        <img src="/static/images/crown.png" alt="">
+                    </div>
+                </a>
                 <div class="header-menu-container">
                     <a href="">Home</a>
                     <a href="">About</a>
@@ -20,10 +22,16 @@
                     <a href="">Enterprise</a>
                 </div>
                 <div class="account-container">
-                    <div class="sign-in">Sign up</div>
-                    <div class="sign-up">Sign in</div>
+                    {{if .IsAuthenticated}}
+                        <div class>Profile</div>
+                    {{else}}
+                        <div class="sign-up">Sign up</div>
+                        <div class="sign-in">Sign in</div>
+                    {{end}}
                 </div>
+                
             </div>
+            <hr>
         </header>
         <main>
             {{ template "content" }}

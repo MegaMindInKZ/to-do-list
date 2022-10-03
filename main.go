@@ -2,22 +2,24 @@ package main
 
 import (
 	"net/http"
+	"to-do-list/config"
+	"to-do-list/data"
 )
 
 func main() {
-	config := NewConfig()
-
+	config := config.NewConfig()
+	database := data.NewStorage(config)
+	data.InitDB(database)
 	mux := http.NewServeMux()
 
 	files := http.FileServer(http.Dir(config.Static))
-	http.Handle("/static/", http.StripPrefix("/static/", files))
+	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
 	mux.HandleFunc("/", index)
 
 	server := &http.Server{
-		Addr: config.Address,
+		Addr:    config.Address,
+		Handler: mux,
 	}
-	http.HandleFunc("/hello", hello)
-	http.HandleFunc("/", index)
 	server.ListenAndServe()
 }

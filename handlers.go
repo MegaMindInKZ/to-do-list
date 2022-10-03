@@ -1,23 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
+	"to-do-list/data"
 )
 
-func hello(writer http.ResponseWriter, request *http.Request) {
-	fmt.Fprint(writer, "Hello!!!")
-}
-
 func index(writer http.ResponseWriter, request *http.Request) {
-	h := Hello{
-		hello: "Hello World",
-	}
+	h := indexStruct{}
 	t, _ := template.ParseFiles("templates/base.html", "templates/index.html")
 	t.ExecuteTemplate(writer, "base", h)
 }
 
-type Hello struct {
-	hello string
+type indexStruct struct {
+	User            data.User
+	IsAuthenticated bool
 }

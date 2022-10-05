@@ -6,20 +6,24 @@ import (
 	"to-do-list/data"
 )
 
+var database data.Storage
+
 func main() {
-	config := config.NewConfig()
-	database := data.NewStorage(config)
-	data.InitDB(database)
+	settings := config.NewConfig()
+	database = data.NewStorage(settings)
+	config.InitDB(database)
 	mux := http.NewServeMux()
 
-	files := http.FileServer(http.Dir(config.Static))
+	files := http.FileServer(http.Dir(settings.Static))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/sign-in", sign_in)
+	mux.HandleFunc("/sign-up", sign_up)
+	mux.HandleFunc("/login", login)
 
 	server := &http.Server{
-		Addr:    config.Address,
+		Addr:    settings.Address,
 		Handler: mux,
 	}
 	server.ListenAndServe()

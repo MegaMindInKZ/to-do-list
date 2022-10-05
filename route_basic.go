@@ -21,3 +21,8 @@ type indexStruct struct {
 	User            data.User
 	IsAuthenticated bool
 }
+
+func sign_up(writer http.ResponseWriter, request *http.Request) {
+	t, _ := template.ParseFiles("templates/sign-up.html")
+	t.Execute(writer, nil)
+}

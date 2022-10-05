@@ -1,6 +1,12 @@
 package config
 
-import "flag"
+import (
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"to-do-list/data"
+)
 
 type Config struct {
 	Address    string
@@ -19,4 +25,13 @@ func NewConfig() Config {
 		DBname:     *flag.String("dbname", "TO_DO_LIST", "database name"),
 		DBpassword: *flag.String("dbpassword", "200103287sdu", "database password"),
 	}
+}
+
+func InitDB(database data.Storage) {
+	st, ioErr := ioutil.ReadFile("data/setup.sql")
+	if ioErr != nil {
+		fmt.Println("Cannont read data/setup.sql")
+		os.Exit(1)
+	}
+	database.Database.Exec(string(st))
 }

@@ -8,14 +8,14 @@
         <div class="main-container">
             <div class="form-container">
                 <div class="title-container">Login</div>
-                <form action="">
+                <form action="/login" method="post">
                     <div class="">
                         <div class="input-title">
-                            Username
+                            Username or Email
                         </div>
                         <div class="input-container">
                             <img src="/static/images/profile.png" alt="">
-                            <input type="text" placeholder="Type your username or email">
+                            <input type="text" placeholder="Type your username or email" name="username-or-email">
                         </div>
                     </div>
                     <div class="">
@@ -24,7 +24,7 @@
                         </div>
                         <div class="input-container">
                             <img src="/static/images/password.png" alt="">
-                            <input type="password" name="" id="" placeholder="Type your password">
+                            <input type="password" name="password" id="" placeholder="Type your password">
                         </div>
                     </div>
                     <div class="forget-password-container">
@@ -36,7 +36,7 @@
                 </form>
             </div>
             <div class="sign-up-container">
-                <a href="">Sign up</a>
+                <a href="/sign-up">Sign up</a>
             </div>
         </div>
     </body>

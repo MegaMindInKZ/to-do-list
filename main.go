@@ -16,6 +16,7 @@ func main() {
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
 	mux.HandleFunc("/", index)
+	mux.HandleFunc("/sign-in", sign_in)
 
 	server := &http.Server{
 		Addr:    config.Address,

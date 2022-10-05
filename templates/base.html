@@ -23,10 +23,10 @@
                 </div>
                 <div class="account-container">
                     {{if .IsAuthenticated}}
-                        <div class>Profile</div>
+                        <a class>Profile</a>
                     {{else}}
-                        <div class="sign-up">Sign up</div>
-                        <div class="sign-in">Sign in</div>
+                        <a class="sign-up">Sign up</a>
+                        <a class="sign-in" href="/sign-in">Sign in</a>
                     {{end}}
                 </div>
                 

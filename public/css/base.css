@@ -35,10 +35,11 @@ header{
 
 }
 .header-menu-container a{
-    font-size: 20px;
+    font-size: 30px;
     height: 20px;
     text-decoration: none;
-    margin-right: 10px;
+    margin-right: 20px;
+    margin-left: 20px;
     color: #808080	;
 }
 .account-container{
@@ -46,7 +47,7 @@ header{
     align-items: center;
     margin-right: 40px;
 }
-.account-container div{
+.account-container a{
     font-size: 20px;
     height: 40px;
     width: 100px;
@@ -57,7 +58,7 @@ header{
 
 .sign-up{
     color: white;
-    margin-right: 5px;
+    margin-right: 10px;
     border: #215EC0 1px;
     border-radius: 5px;
     background-color: #215EC0;
@@ -68,14 +69,14 @@ header{
 }
 .sign-in{
     color: white;
-    margin-right: 5px;
+    margin-left: 10px;
     border: #A30000 1px;
     border-radius: 5px;
     background-color: #A30000;
     transition: background-color 1s ease-out 100ms;
 }
 .sign-in:hover{
-    background-color: #FF1F1F;
+    background-color: #d61b1b;
 }
 header hr{
     border-color: #adadad;

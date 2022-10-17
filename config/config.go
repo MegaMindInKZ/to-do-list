@@ -1,11 +1,11 @@
 package config
 
 import (
+	"database/sql"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"to-do-list/data"
 )
 
 type Config struct {
@@ -27,11 +27,11 @@ func NewConfig() Config {
 	}
 }
 
-func InitDB(database data.Storage) {
+func InitDB(database *sql.DB) {
 	st, ioErr := ioutil.ReadFile("data/setup.sql")
 	if ioErr != nil {
 		fmt.Println("Cannont read data/setup.sql")
 		os.Exit(1)
 	}
-	database.Database.Exec(string(st))
+	database.Exec(string(st))
 }

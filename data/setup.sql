@@ -15,8 +15,8 @@ create table users (
 create table tasks (
   id      serial primary key,
   title   text,
-  user_id integer references users(id)
-
+  user_id integer references users(id),
+  created_at timestamp
 );
 
 

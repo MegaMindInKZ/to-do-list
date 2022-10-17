@@ -8,22 +8,24 @@ type Session struct {
 	Created_at string
 }
 
-func (session *Session) Check(db Storage) (valid bool, err error) {
-	err = db.Database.QueryRow("SELECT ID, UUID, EMAIL, USER_ID, CREATED_AT FROM SESSIONS WHERE UUID = ?", session.UUID).Scan(&session.ID, &session.UUID, &session.Email, &session.User_ID, &session.Created_at)
+func (session *Session) Check() (valid bool, err error) {
+	err = DB.QueryRow(
+		"SELECT ID, UUID, EMAIL, USER_ID, CREATED_AT FROM SESSIONS WHERE UUID = ?", session.UUID,
+	).Scan(&session.ID, &session.UUID, &session.Email, &session.User_ID, &session.Created_at)
 	if err != nil {
 		valid = false
 		return
 	}
-	if session.ID != 0{
+	if session.ID != 0 {
 		valid = true
 	}
 	return
 }
 
-func (session *Session) DeleteByUUID(db Storage) (err error){
+func (session *Session) DeleteByUUID() (err error) {
 	statement := "delete from sessions where uuid = ?"
-	stmt, err := db.Database.Prepare(statement)
-	if err != nil{
+	stmt, err := DB.Prepare(statement)
+	if err != nil {
 		return
 	}
 	defer stmt.Close()
@@ -31,7 +33,15 @@ func (session *Session) DeleteByUUID(db Storage) (err error){
 	return
 }
 
-func (session *Session) User(db Storage) (user User, err error){
+func (session *Session) User() (user User, err error) {
 	user = User{}
-	err = db.
+	err = DB.QueryRow(
+		"SELECT ID, UUID, NAME, EMAIL, CREATED_AT FROM USERS WHERE ID = ?", session.User_ID,
+	).Scan(&user.ID, &user.UUID, &user.Name, &user.Email, &user.CreatedAt)
+	return
+}
+
+func SessionDeleteAll() (err error) {
+	_, err = DB.Exec("DELETE FROM SESSIONS")
+	return
 }

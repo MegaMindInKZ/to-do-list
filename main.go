@@ -2,19 +2,13 @@ package main
 
 import (
 	"net/http"
-	"to-do-list/config"
 	"to-do-list/data"
 )
 
-var database data.Storage
-
 func main() {
-	settings := config.NewConfig()
-	database = data.NewStorage(settings)
-	config.InitDB(database)
 	mux := http.NewServeMux()
 
-	files := http.FileServer(http.Dir(settings.Static))
+	files := http.FileServer(http.Dir(data.Config.Static))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
 	mux.HandleFunc("/", index)
@@ -23,7 +17,7 @@ func main() {
 	mux.HandleFunc("/login", login)
 
 	server := &http.Server{
-		Addr:    settings.Address,
+		Addr:    data.Config.Address,
 		Handler: mux,
 	}
 	server.ListenAndServe()

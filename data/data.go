@@ -17,28 +17,27 @@ const (
 	host = "127.0.0.1"
 )
 
-type Task struct {
-	ID      int
-	Title   string
-	User_ID int
-}
+var DB *sql.DB
+var Config config.Config
 
-type Storage struct {
-	Database *sql.DB
-}
-
-func NewStorage(conf config.Config) Storage {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, conf.DBusername, conf.DBpassword, conf.DBname)
-	db, err := sql.Open("postgres", psqlInfo)
+func StorageConfig(conf config.Config) {
+	psqlInfo := fmt.Sprintf(
+		"host=%s port=%d user=%s "+
+			"password=%s dbname=%s sslmode=disable",
+		host, port, conf.DBusername, conf.DBpassword, conf.DBname,
+	)
+	var err error
+	DB, err = sql.Open("postgres", psqlInfo)
 	if err != nil {
 		fmt.Println("We have problems with connection database", err)
 		os.Exit(1)
 	}
-	return Storage{
-		Database: db,
-	}
+}
+
+func init() {
+	Config = config.NewConfig()
+	StorageConfig(Config)
+	config.InitDB(DB)
 }
 
 func Encrypt(plaintext string) (cryptext string) {

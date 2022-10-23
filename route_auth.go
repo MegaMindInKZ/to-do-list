@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"to-do-list/data"
@@ -10,23 +9,21 @@ import (
 func signUpAccount(writer http.ResponseWriter, request *http.Request) {
 	err := request.ParseForm()
 	if err != nil {
-		fmt.Println("error with parsing")
 		//danger method
 	}
 	if request.PostFormValue("password") == request.PostFormValue("repassword") {
 		user := data.User{
+			Username: request.PostFormValue("username"),
 			Name:     request.PostFormValue("name"),
 			Email:    request.PostFormValue("email"),
 			Password: request.PostFormValue("password"),
 		}
 		if err := user.Create(); err != nil {
-			fmt.Println("error with user creating")
-			fmt.Println(err)
 			//danger method
 		}
-		http.Redirect(writer, request, "/login", 302)
+		http.Redirect(writer, request, "/sign-in", 302)
 	} else {
-		fmt.Println("passwords don't match")
+		//danger method
 	}
 }
 
@@ -59,7 +56,7 @@ func login(writer http.ResponseWriter, request *http.Request) {
 		http.SetCookie(writer, &cookie)
 		http.Redirect(writer, request, "/", 302)
 	} else {
-		http.Redirect(writer, request, "/login", 302)
+		http.Redirect(writer, request, "/sign-in", 302)
 	}
 
 }

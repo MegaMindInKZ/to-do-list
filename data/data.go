@@ -32,30 +32,12 @@ func StorageConfig(conf config.Config) {
 		fmt.Println("We have problems with connection database", err)
 		os.Exit(1)
 	}
-	rows, err := DB.Query("SELECT ID, USERNAME, EMAIL FROM USERS")
-	if err != nil {
-		fmt.Println("We have problems with query")
-		fmt.Println(err)
-		return
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var id int
-		var username string
-		var email string
-		err = rows.Scan(&id, &username, &email)
-		if err != nil {
-			fmt.Println("We have problems with scanning")
-			return
-		}
-		fmt.Println(id, username, email)
-	}
 }
 
 func init() {
 	Config = config.NewConfig()
 	StorageConfig(Config)
-	//config.InitDB(DB)
+	config.InitDB(DB)
 }
 
 func Encrypt(plaintext string) (cryptext string) {

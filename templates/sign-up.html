@@ -8,14 +8,14 @@
         <div class="main-container">
             <div class="form-container">
                 <div class="title-container">Register</div>
-                <form action="">
+                <form action="/sign-up-account" method="post">
                     <div class="">
                         <div class="input-title">
                             Name
                         </div>
                         <div class="input-container">
                             <img src="/static/images/profile.png" alt="">
-                            <input type="text" placeholder="Enter your full name">
+                            <input type="text" placeholder="Enter your full name" name="name">
                         </div>
                     </div>
                     <div class="">
@@ -24,7 +24,7 @@
                         </div>
                         <div class="input-container">
                             <img src="/static/images/profile.png" alt="">
-                            <input type="text" placeholder="Enter your username">
+                            <input type="text" placeholder="Enter your username" name="username">
                         </div>
                     </div>
                     <div class="">
@@ -33,7 +33,7 @@
                         </div>
                         <div class="input-container">
                             <img src="/static/images/email.png" alt="">
-                            <input type="text" placeholder="Enter your email">
+                            <input type="text" placeholder="Enter your email" name="email">
                         </div>
                     </div>
                     <div class="">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="input-container">
                             <img src="/static/images/password.png" alt="">
-                            <input type="password" name="" id="" placeholder="Type your password">
+                            <input type="password" name="password" placeholder="Type your password">
                         </div>
                     </div>
                     <div class="">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="input-container">
                             <img src="/static/images/password.png" alt="">
-                            <input type="password" name="" id="" placeholder="Retype your password">
+                            <input type="password" name="repassword" id="" placeholder="Retype your password">
                         </div>
                     </div>
                     <div class="forget-password-container">

@@ -22,7 +22,7 @@ func NewConfig() Config {
 		Address:    *flag.String("address", "127.0.0.1:8080", "ip address and port number of our website"),
 		Static:     *flag.String("static", "public", "static file storage"),
 		DBusername: *flag.String("dbusername", "postgres", "database username"),
-		DBname:     *flag.String("dbname", "TO_DO_LIST", "database name"),
+		DBname:     *flag.String("dbname", "to_do_list", "database name"),
 		DBpassword: *flag.String("dbpassword", "200103287sdu", "database password"),
 	}
 }

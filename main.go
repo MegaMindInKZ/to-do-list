@@ -15,6 +15,7 @@ func main() {
 	mux.HandleFunc("/sign-in", sign_in)
 	mux.HandleFunc("/sign-up", sign_up)
 	mux.HandleFunc("/login", login)
+	mux.HandleFunc("/sign-up-account", signUpAccount)
 
 	server := &http.Server{
 		Addr:    data.Config.Address,

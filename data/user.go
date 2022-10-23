@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -45,12 +46,29 @@ func UserByEmail(email string) (user User, err error) {
 	return
 }
 func (user *User) Create() (err error) {
-	st, err := DB.Prepare("INSERT INTO USERS(UUID, NAME, EMAIL, PASSWORD, CREATED_AT) VALUES (?, ?, ?, ?, ?) RETURNING ID, UUID, CREATED_AT")
+	var existsUsername bool
+	var existsEmail bool
+	err = DB.QueryRow("SELECT EXISTS (SELECT EMAIL FROM USERS WHERE EMAIL=$1)", user.Email).Scan(&existsEmail)
 	if err != nil {
 		return
 	}
+	err = DB.QueryRow(
+		"SELECT EXISTS (SELECT USERNAME FROM USERS WHERE USERNAME=$1)", user.Username,
+	).Scan(&existsUsername)
+	if err != nil {
+		return
+	}
+	if existsUsername || existsEmail {
+		//danger method
+		return
+	}
+	st, err := DB.Prepare("INSERT INTO USERS(UUID, NAME, USERNAME, EMAIL, PASSWORD, CREATED_AT) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID, UUID, CREATED_AT")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	defer st.Close()
-	err = st.QueryRow(CreateUUID(), user.Name, user.Email, Encrypt(user.Password), time.Now()).Scan(
+	err = st.QueryRow(CreateUUID(), user.Name, user.Username, user.Email, Encrypt(user.Password), time.Now()).Scan(
 		&user.ID, &user.UUID, &user.CreatedAt,
 	)
 	return

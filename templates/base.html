@@ -7,31 +7,7 @@
         <link rel="stylesheet" href="/static/css/base.css">
     </head>
     <body>
-        <header>
-            <div class="header">
-                <a href="/">
-                    <div class="logo-container">
-                        <div class="logo-text">Tasking</div>
-                        <img src="/static/images/crown.png" alt="">
-                    </div>
-                </a>
-                <div class="header-menu-container">
-                    <a href="">Home</a>
-                    <a href="">About</a>
-                    <a href="">Member</a>
-                    <a href="">Enterprise</a>
-                </div>
-                <div class="account-container">
-                    {{if .IsAuthenticated}}
-                        <a class>Profile</a>
-                    {{else}}
-                        <a class="sign-up" href="/sign-up">Sign up</a>
-                        <a class="sign-in" href="/sign-in">Sign in</a>
-                    {{end}}
-                </div>
-            </div>
-            <hr>
-        </header>
+        {{ template "navbar" }}
         <main>
             {{ template "content" }}
         </main>

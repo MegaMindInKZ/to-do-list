@@ -93,7 +93,7 @@ func (user *User) Update() (err error) {
 }
 
 func (user *User) CreateSession() (session Session, err error) {
-	stmt, err := DB.Prepare("INSERT INTO SESSIONS (UUID, EMAIL, USER_ID, CREATED_AT) VALUES (?, ?, ?, ?) RETURNING ID, UUID, EMAIL, USER_ID, CREATED_AT")
+	stmt, err := DB.Prepare("INSERT INTO SESSIONS (UUID, EMAIL, USER_ID, CREATED_AT) VALUES ($1, $2, $3, $4) RETURNING ID, UUID, EMAIL, USER_ID, CREATED_AT")
 	if err != nil {
 		return
 	}

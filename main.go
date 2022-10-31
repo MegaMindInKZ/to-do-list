@@ -7,7 +7,6 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
-
 	files := http.FileServer(http.Dir(data.Config.Static))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 

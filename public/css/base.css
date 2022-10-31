@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+body{
+    height: 100%;
+    width: 100%;
+}
 header{
+    position: fixed;
+    background-color: #153C7A;
     width: 100%;
     position: fixed;
 }
@@ -19,12 +25,13 @@ header{
     margin-left: 40px;
 }
 .logo-container img{
-    height: 30px;
+    height: 60px;
     margin-left: 5px;
 }
 .logo-text{
-    color: black;
-    font-size: 30px;
+    margin-left: 10px;
+    font-size: 50px;
+    color: white;
     font-weight: 500;
     margin-right: 5px;
     font-family: 'Oswald', sans-serif;
@@ -35,12 +42,12 @@ header{
 
 }
 .header-menu-container a{
-    font-size: 30px;
+    font-size: 20px;
     height: 20px;
     text-decoration: none;
     margin-right: 20px;
     margin-left: 20px;
-    color: #808080	;
+    color: white	;
 }
 .account-container{
     display: flex;
@@ -78,7 +85,3 @@ header{
 .sign-in:hover{
     background-color: #d61b1b;
 }
-header hr{
-    border-color: #adadad;
-}
-

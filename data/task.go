@@ -1,21 +1,35 @@
 package data
 
+import (
+	"time"
+)
+
 type Task struct {
-	ID        int
-	Title     string
-	UserID    int
-	CreatedAt string
+	ID          int
+	Title       string
+	UserID      int
+	CreatedAt   string
+	Deadline    string
+	Description string
+	IsImportant bool
+	IsFinished  bool
 }
 
-func UserTasksByID(user_id int) (tasks []Task, err error) {
-	rows, err := DB.Query("SELECT ID, TITLE, USER_ID, CREATED_AT FROM TASKS WHERE USER_ID = ?", user_id)
+func UserTasksByUserID(user_id int) (tasks []Task, err error) {
+	rows, err := DB.Query(
+		"SELECT ID, TITLE, USER_ID, DEADLINE, ISIMPORTANT, ISFINISHED, DESCRIPTION,  CREATED_AT FROM TASKS WHERE USER_ID = $1",
+		user_id,
+	)
 	if err != nil {
 		return
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var task Task
-		err = rows.Scan(&task.ID, &task.Title, &task.UserID, &task.CreatedAt)
+		err = rows.Scan(
+			&task.ID, &task.Title, &task.UserID, &task.Deadline, &task.IsImportant, &task.IsFinished, &task.Description,
+			&task.CreatedAt,
+		)
 		if err != nil {
 			return nil, err
 		}
@@ -35,12 +49,14 @@ func DeleteUserTasks(user User) (err error) {
 }
 
 func (task *Task) Create() (err error) {
-	st, err := DB.Prepare("INSERT INTO TASKS(TITLE, USER_ID, CREATED_AT) VALUES (?, ?, ?)")
+	st, err := DB.Prepare("INSERT INTO TASKS(USER_ID, TITLE, DESCRIPTION, ISIMPORTANT, CREATED_AT) VALUES ($1, $2, $3, $4, $5) RETURNING ID, CREATED_AT")
 	if err != nil {
 		return
 	}
 	defer st.Close()
-	err = st.QueryRow(task.Title, task.UserID, task.CreatedAt).Scan(&task.ID, &task.CreatedAt)
+	err = st.QueryRow(
+		task.UserID, task.Title, task.Description, task.IsImportant, time.Now(),
+	).Scan(&task.ID, &task.CreatedAt)
 	return
 }
 

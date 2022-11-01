@@ -1,0 +1,17 @@
+{{ define "head"}}
+<title>Add New Task</title>
+{{ end }}
+{{ define "profile-content" }}
+<div>
+    New Task
+</div>
+<div>
+    <form action="/profile-add-task">
+        <input type="text" name="title" id="" required>
+        <input type="datetime" name="deadline">
+        <input type="text" name="description">
+        <input type="checkbox" name="isImportant">
+        <input type="submit">
+    </form>
+</div>
+{{ end }}

@@ -4,10 +4,8 @@ body{
     width: 100%;
 }
 header{
-    position: fixed;
     background-color: #153C7A;
     width: 100%;
-    position: fixed;
 }
 .header{
     display: flex;

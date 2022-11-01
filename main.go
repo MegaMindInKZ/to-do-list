@@ -16,6 +16,9 @@ func main() {
 	mux.HandleFunc("/login", login)
 	mux.HandleFunc("/sign-up-account", signUpAccount)
 	mux.HandleFunc("/logout", logout)
+	mux.HandleFunc("/profile-tasks", profileTasks)
+	mux.HandleFunc("/profile-add-task-page", profileAddTaskPage)
+	mux.HandleFunc("/profile-add-task", profileAddTask)
 	server := &http.Server{
 		Addr:    data.Config.Address,
 		Handler: mux,

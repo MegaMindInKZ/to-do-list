@@ -1,0 +1,18 @@
+{{ define "head"}}
+<title>Your Tasks</title>
+{{ end }}
+{{ define "profile-content" }}
+    <div>
+        <div>
+            My Tasks
+        </div>
+        <a href="/profile-add-task-page">Add Task</a>
+    </div>
+    <div>
+        {{ range .tasks }}
+        <div>
+            <div>.Title</div>
+        </div>
+        {{ end }}
+    </div>
+{{ end }}

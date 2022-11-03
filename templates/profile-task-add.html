@@ -6,9 +6,9 @@
     New Task
 </div>
 <div>
-    <form action="/profile-add-task">
+    <form action="/profile-add-task" method="post">
         <input type="text" name="title" id="" required>
-        <input type="datetime" name="deadline">
+        <input type="datetime-local" name="deadline">
         <input type="text" name="description">
         <input type="checkbox" name="isImportant">
         <input type="submit">

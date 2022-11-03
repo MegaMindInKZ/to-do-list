@@ -16,3 +16,7 @@ func session(writer http.ResponseWriter, request *http.Request) (session data.Se
 	}
 	return
 }
+
+func isTrue(s string) bool {
+	return s == "on"
+}

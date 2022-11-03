@@ -9,9 +9,9 @@
         <a href="/profile-add-task-page">Add Task</a>
     </div>
     <div>
-        {{ range .tasks }}
+        {{ range . }}
         <div>
-            <div>.Title</div>
+            <div class="task-title">{{ .Title }}</div>
         </div>
         {{ end }}
     </div>

@@ -1,0 +1,18 @@
+.profile-content-container{
+    display:flex;
+    background: url("/static/images/profile-background.jpeg");
+    width: 100%;
+}
+.profile-content-container a{
+    text-decoration: none;
+}
+.profile-menu-container{
+    display:flex;
+    flex-direction: column;
+}
+.profile-menu-container a{
+    color: white;
+}
+.profile-content-navbar-container{
+    display: flex;
+}

@@ -1,15 +1,16 @@
 {{ define "content" }}
-    <div>
-        <div>
-            <a href=""></a>
+    <div class="profile-content-container">
+        <div class="profile-menu-container">
+            <a href="/profile-tasks">Tasks</a>
+            <a href="">Projects</a>
         </div>
-        <div>
-            <div>
+        <div class="profile-right-window-container">
+            <div class="profile-content-navbar-container">
                 <a href="">Tasks</a>
                 <a href="">Projects</a>
             </div>
             <div>
-                {{ template "profile-content" .}}
+                {{ template "profile-content" . }}
             </div>
         </div>
     </div>

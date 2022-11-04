@@ -32,6 +32,7 @@ func profileAddTask(writer http.ResponseWriter, request *http.Request) {
 	task := data.Task{
 		Title:       request.PostFormValue("title"),
 		UserID:      session.User_ID,
+		Deadline:    request.PostFormValue("deadline"),
 		Description: request.PostFormValue("description"),
 		IsImportant: isTrue(request.PostFormValue("isImportant")),
 	}

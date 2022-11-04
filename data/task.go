@@ -49,15 +49,26 @@ func DeleteUserTasks(user User) (err error) {
 }
 
 func (task *Task) Create() (err error) {
-	st, err := DB.Prepare("INSERT INTO TASKS(USER_ID, TITLE, DESCRIPTION, ISIMPORTANT, CREATED_AT) VALUES ($1, $2, $3, $4, $5) RETURNING ID, CREATED_AT")
+	if task.Deadline == "" {
+		st, err := DB.Prepare("INSERT INTO TASKS(USER_ID, TITLE, DESCRIPTION, ISIMPORTANT, CREATED_AT) VALUES ($1, $2, $3, $4, $5) RETURNING ID, CREATED_AT")
+		if err != nil {
+			return err
+		}
+		defer st.Close()
+		err = st.QueryRow(
+			task.UserID, task.Title, task.Description, task.IsImportant, time.Now(),
+		).Scan(&task.ID, &task.CreatedAt)
+		return err
+	}
+	st, err := DB.Prepare("INSERT INTO TASKS(USER_ID, TITLE, DESCRIPTION, DEADLINE, ISIMPORTANT, CREATED_AT) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID, CREATED_AT")
 	if err != nil {
-		return
+		return err
 	}
 	defer st.Close()
 	err = st.QueryRow(
-		task.UserID, task.Title, task.Description, task.IsImportant, time.Now(),
+		task.UserID, task.Title, task.Description, task.Deadline, task.IsImportant, time.Now(),
 	).Scan(&task.ID, &task.CreatedAt)
-	return
+	return err
 }
 
 func (task *Task) Delete() (err error) {

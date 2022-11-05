@@ -4,17 +4,29 @@
 <link rel="stylesheet" href="/static/css/profile-tasks.css">
 {{ end }}
 {{ define "profile-content" }}
-    <div>
-        <div>
+    <div class="profile-content">
+        <div class="profile-content-title">
             My Tasks
         </div>
         <a href="/profile-add-task-page">Add Task</a>
+
     </div>
-    <div>
-        {{ range . }}
-        <div>
-            <div class="task-title">{{ .Title }}</div>
+    <div class="tasks-main-container">
+        <div class="task-container">
+            <div class="task-cat main-cat">Title</div>
+            <div class="task-cat main-cat">Created At</div>
+            <div class="task-cat main-cat">Deadline</div>
+            <div class="task-cat main-cat">Description</div>
         </div>
-        {{ end }}
+        <div class="tasks-container">
+            {{ range . }}
+                <div class="task-container">
+                    <div class="task-cat">{{ .Title }}</div>
+                    <div class="task-cat">{{ .CreatedAt }}</div>
+                    <div class="task-cat">{{ .Deadline }}</div>
+                    <div class="task-cat">{{ .Description }}</div>
+                </div>
+            {{ end }}
+        </div>
     </div>
 {{ end }}

@@ -1,6 +1,7 @@
 package data
 
 import (
+	"strings"
 	"time"
 )
 
@@ -17,7 +18,7 @@ type Task struct {
 
 func UserTasksByUserID(user_id int) (tasks []Task, err error) {
 	rows, err := DB.Query(
-		"SELECT ID, TITLE, USER_ID, ISIMPORTANT, ISFINISHED, DESCRIPTION,  CREATED_AT FROM TASKS WHERE USER_ID = $1",
+		"SELECT ID, TITLE, USER_ID, DEADLINE, ISIMPORTANT, ISFINISHED, DESCRIPTION,  CREATED_AT FROM TASKS WHERE USER_ID = $1",
 		user_id,
 	)
 	if err != nil {
@@ -27,9 +28,10 @@ func UserTasksByUserID(user_id int) (tasks []Task, err error) {
 	for rows.Next() {
 		var task Task
 		err = rows.Scan(
-			&task.ID, &task.Title, &task.UserID, &task.IsImportant, &task.IsFinished, &task.Description,
+			&task.ID, &task.Title, &task.UserID, &task.Deadline, &task.IsImportant, &task.IsFinished, &task.Description,
 			&task.CreatedAt,
 		)
+		task.Deadline = strings.Split(task.Deadline, "T")[0]
 		if err != nil {
 			return nil, err
 		}
@@ -39,7 +41,7 @@ func UserTasksByUserID(user_id int) (tasks []Task, err error) {
 }
 
 func DeleteUserTasks(user User) (err error) {
-	stmt, err := DB.Prepare("DELETE FROM TASKS WHERE USER_ID = ?")
+	stmt, err := DB.Prepare("DELETE FROM TASKS WHERE USER_ID = $1")
 	if err != nil {
 		return
 	}
@@ -72,7 +74,7 @@ func (task *Task) Create() (err error) {
 }
 
 func (task *Task) Delete() (err error) {
-	stmt, err := DB.Prepare("DELETE FROM TASKS WHERE ID = ?")
+	stmt, err := DB.Prepare("DELETE FROM TASKS WHERE ID = $1")
 	if err != nil {
 		return
 	}
@@ -82,7 +84,7 @@ func (task *Task) Delete() (err error) {
 }
 
 func (task *Task) Update(t Task) (err error) {
-	stmt, err := DB.Prepare("UPDATE TASKS SET TITLE = ? WHERE ID = ?")
+	stmt, err := DB.Prepare("UPDATE TASKS SET TITLE = $1 WHERE ID = $2")
 	if err != nil {
 		return
 	}

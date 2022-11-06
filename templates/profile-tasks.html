@@ -12,21 +12,28 @@
 
     </div>
     <div class="tasks-main-container">
-        <div class="task-container">
-            <div class="task-cat main-cat">Title</div>
-            <div class="task-cat main-cat">Created At</div>
-            <div class="task-cat main-cat">Deadline</div>
-            <div class="task-cat main-cat">Description</div>
-        </div>
-        <div class="tasks-container">
-            {{ range . }}
-                <div class="task-container">
-                    <div class="task-cat">{{ .Title }}</div>
-                    <div class="task-cat">{{ .CreatedAt }}</div>
-                    <div class="task-cat">{{ .Deadline }}</div>
-                    <div class="task-cat">{{ .Description }}</div>
-                </div>
-            {{ end }}
-        </div>
+            <div class="task-container">
+                <div class="task-cat main-cat">Title</div>
+                <div class="task-cat main-cat">Created At</div>
+                <div class="task-cat main-cat">Deadline</div>
+                <div class="task-cat main-cat">Description</div>
+                <div class="task-cat main-cat"></div>
+            </div>
+            <div class="tasks-container">
+                {{ range . }}
+                    <form action="">
+                        <input type="number" value="{{ .ID }}" name="id" hidden>
+                        <div class="task-container">
+                            <div class="task-cat">{{ .Title }}</div>
+                            <div class="task-cat">{{ .CreatedAt }}</div>
+                            <div class="task-cat">{{ .Deadline }}</div>
+                            <div class="task-cat">{{ .Description }}</div>
+                            <div class="task-cat finished-button-container">
+                                <button class="finished-button" type="submit">Finished</button>
+                            </div>
+                        </div>
+                    </form>
+                {{ end }}
+            </div>
     </div>
 {{ end }}

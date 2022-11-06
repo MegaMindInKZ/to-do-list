@@ -1,6 +1,7 @@
 package data
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -39,9 +40,10 @@ func UserByID(user_id int) (user User, err error) {
 }
 
 func UserByEmail(email string) (user User, err error) {
-	err = DB.QueryRow("SELECT * FROM USERS WHERE EMAIL = ?", email).Scan(
+	err = DB.QueryRow("SELECT * FROM USERS WHERE EMAIL = $1", email).Scan(
 		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
 	)
+	fmt.Println(err)
 	return
 }
 func (user *User) Create() (err error) {

@@ -25,7 +25,7 @@ create table tasks(
     id          serial primary key,
     user_id     integer references users(id),
     title       text,
-    deadline    timestamp,
+    deadline    date,
     description text,
     isImportant boolean default false,
     isFinished  boolean default false,

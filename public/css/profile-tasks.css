@@ -43,9 +43,22 @@
     color: rgb(126, 126, 126);
 }
 .task-cat{
-    width: 25%;
+    width: 20%;
 }
 .tasks-container{
     background-color: rgb(233, 233, 233);
     border-radius: 5px;
+}
+.finished-button{
+    height: 30px;
+    width: 100px;
+    border-radius: 5px;
+    background-color: greenyellow;
+    border: 1px solid greenyellow;
+    font-family: 'Poppins', sans-serif;
+    margin-right: 20px;
+}
+.finished-button-container{
+    display: flex;
+    justify-content: flex-end;
 }

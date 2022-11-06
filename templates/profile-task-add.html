@@ -2,6 +2,13 @@
 <title>Add New Task</title>
 <link rel="stylesheet" href="/static/css/profile-base.css">
 <link rel="stylesheet" href="/static/css/profile-task-add.css">
+<script type="text/javascript">
+    window.onload=function(){//from ww  w . j  a  va2s. c  o  m
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementsByName("deadline")[0].setAttribute('min', today);
+    }
+
+</script>
 {{ end }}
 {{ define "profile-content" }}
 <div>
@@ -10,7 +17,7 @@
 <div>
     <form action="/profile-add-task" method="post">
         <input type="text" name="title" id="" required>
-        <input type="datetime-local" name="deadline">
+        <input type="date" name="deadline" min="today">
         <input type="text" name="description">
         <input type="checkbox" name="isImportant">
         <input type="submit">

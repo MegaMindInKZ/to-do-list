@@ -92,3 +92,13 @@ func (task *Task) Update(t Task) (err error) {
 	_, err = stmt.Exec(t.Title, task.ID)
 	return
 }
+
+func DeleteTaskByID(id int) (err error) {
+	stmt, err := DB.Prepare("DELETE FROM TASKS WHERE ID = $1")
+	if err != nil {
+		return
+	}
+	defer stmt.Close()
+	_, err = stmt.Exec(id)
+	return
+}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 	"to-do-list/data"
 )
 
@@ -15,6 +16,10 @@ func profileDeleteTask(writer http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		//danger method
 	}
+	id, err := strconv.ParseInt(request.PostFormValue("id"), 10, 10)
+	err = data.DeleteTaskByID(int(id))
+
+	http.Redirect(writer, request, "/profile-tasks", 302)
 }
 
 func profileAddTask(writer http.ResponseWriter, request *http.Request) {

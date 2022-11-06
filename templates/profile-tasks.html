@@ -21,7 +21,7 @@
             </div>
             <div class="tasks-container">
                 {{ range . }}
-                    <form action="">
+                    <form action="/profile-delete-task" method="post">
                         <input type="number" value="{{ .ID }}" name="id" hidden>
                         <div class="task-container">
                             <div class="task-cat">{{ .Title }}</div>

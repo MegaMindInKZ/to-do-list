@@ -19,7 +19,7 @@ func main() {
 	mux.HandleFunc("/profile-tasks", profileTasks)
 	mux.HandleFunc("/profile-add-task-page", profileAddTaskPage)
 	mux.HandleFunc("/profile-add-task", profileAddTask)
-	mux.HandleFunc("profile-delete-task", profileDeleteTask)
+	mux.HandleFunc("/profile-delete-task", profileDeleteTask)
 	server := &http.Server{
 		Addr:    data.Config.Address,
 		Handler: mux,

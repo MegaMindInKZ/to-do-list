@@ -18,7 +18,7 @@ type Task struct {
 
 func UserTasksByUserID(user_id int) (tasks []Task, err error) {
 	rows, err := DB.Query(
-		"SELECT ID, TITLE, USER_ID, DEADLINE, ISIMPORTANT, ISFINISHED, DESCRIPTION,  CREATED_AT FROM TASKS WHERE USER_ID = $1",
+		"SELECT ID, TITLE, USER_ID, ISIMPORTANT, ISFINISHED, DESCRIPTION,  CREATED_AT FROM TASKS WHERE USER_ID = $1 ORDER BY DEADLINE",
 		user_id,
 	)
 	if err != nil {
@@ -28,9 +28,20 @@ func UserTasksByUserID(user_id int) (tasks []Task, err error) {
 	for rows.Next() {
 		var task Task
 		err = rows.Scan(
-			&task.ID, &task.Title, &task.UserID, &task.Deadline, &task.IsImportant, &task.IsFinished, &task.Description,
+			&task.ID, &task.Title, &task.UserID, &task.IsImportant, &task.IsFinished, &task.Description,
 			&task.CreatedAt,
 		)
+		var deadline string
+		err := DB.QueryRow("SELECT DEADLINE FROM TASKS WHERE ID=$1", task.ID).Scan(&deadline)
+		if err == nil {
+			task.Deadline = deadline
+		}
+		var createdAt string
+		err = DB.QueryRow("SELECT CREATED_AT FROM TASKS WHERE ID=$1", task.ID).Scan(&createdAt)
+		if err == nil {
+			task.CreatedAt = createdAt
+		}
+		task.CreatedAt = strings.Split(task.CreatedAt, "T")[0]
 		task.Deadline = strings.Split(task.Deadline, "T")[0]
 		if err != nil {
 			return nil, err

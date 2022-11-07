@@ -25,9 +25,10 @@ create table tasks(
     id          serial primary key,
     user_id     integer references users(id),
     title       text,
-    deadline    date,
-    description text,
+    deadline    date default "01-01-1920",
+    description text default "",
     isImportant boolean default false,
     isFinished  boolean default false,
     created_at  timestamp
 );
+create trigger

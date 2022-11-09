@@ -33,7 +33,7 @@ func UserByUsername(username string) (user User, err error) {
 }
 
 func UserByID(user_id int) (user User, err error) {
-	err = DB.QueryRow("SELECT * FROM USERS WHERE ID = ?", user_id).Scan(
+	err = DB.QueryRow("SELECT * FROM USERS WHERE ID = $1", user_id).Scan(
 		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
 	)
 	return
@@ -85,12 +85,32 @@ func (user *User) Delete() (err error) {
 }
 
 func (user *User) Update() (err error) {
-	stmt, err := DB.Prepare("UPDATE USERS SET NAME = ?, EMAIL = ?, WHERE ID = ?")
+	var existsUsername bool
+	var existsEmail bool
+	err = DB.QueryRow(
+		"SELECT EXISTS (SELECT EMAIL FROM USERS WHERE EMAIL=$1 AND ID != $2)", user.Email, user.ID,
+	).Scan(&existsEmail)
+	if err != nil {
+		//danger method
+		return
+	}
+	err = DB.QueryRow(
+		"SELECT EXISTS (SELECT USERNAME FROM USERS WHERE USERNAME=$1 AND ID != $2)", user.Username, user.ID,
+	).Scan(&existsUsername)
+	if err != nil {
+		//danger method
+		return
+	}
+	if existsUsername || existsEmail {
+		//danger method
+		return
+	}
+	stmt, err := DB.Prepare("UPDATE USERS SET NAME = $1, EMAIL = $2, USERNAME = $3 WHERE ID = $4")
 	if err != nil {
 		return
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(user.Name, user.Email, user.ID)
+	_, err = stmt.Exec(user.Name, user.Email, user.Username, user.ID)
 	return
 }
 

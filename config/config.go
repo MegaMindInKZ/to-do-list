@@ -14,6 +14,7 @@ type Config struct {
 	DBusername string
 	DBpassword string
 	DBname     string
+	Private    string
 }
 
 func NewConfig() Config {
@@ -24,6 +25,7 @@ func NewConfig() Config {
 		DBusername: *flag.String("dbusername", "postgres", "database username"),
 		DBname:     *flag.String("dbname", "to_do_list", "database name"),
 		DBpassword: *flag.String("dbpassword", "200103287sdu", "database password"),
+		Private:    *flag.String("private", "private", "private picture"),
 	}
 }
 

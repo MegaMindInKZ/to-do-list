@@ -1,7 +1,6 @@
 package data
 
 import (
-	"fmt"
 	"strings"
 	"time"
 )
@@ -14,6 +13,7 @@ type User struct {
 	Email     string
 	Password  string
 	CreatedAt string
+	Avatar    string
 }
 
 func UserByEmailOrUsername(usernameOrEmail string) (user User, err error) {
@@ -34,16 +34,15 @@ func UserByUsername(username string) (user User, err error) {
 
 func UserByID(user_id int) (user User, err error) {
 	err = DB.QueryRow("SELECT * FROM USERS WHERE ID = $1", user_id).Scan(
-		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
+		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt, &user.Avatar,
 	)
 	return
 }
 
 func UserByEmail(email string) (user User, err error) {
 	err = DB.QueryRow("SELECT * FROM USERS WHERE EMAIL = $1", email).Scan(
-		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
+		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt, &user.Avatar,
 	)
-	fmt.Println(err)
 	return
 }
 func (user *User) Create() (err error) {
@@ -105,12 +104,12 @@ func (user *User) Update() (err error) {
 		//danger method
 		return
 	}
-	stmt, err := DB.Prepare("UPDATE USERS SET NAME = $1, EMAIL = $2, USERNAME = $3 WHERE ID = $4")
+	stmt, err := DB.Prepare("UPDATE USERS SET NAME = $1, EMAIL = $2, USERNAME = $3, AVATAR = $4 WHERE ID = $5")
 	if err != nil {
 		return
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(user.Name, user.Email, user.Username, user.ID)
+	_, err = stmt.Exec(user.Name, user.Email, user.Username, user.Avatar, user.ID)
 	return
 }
 

@@ -10,6 +10,9 @@ func main() {
 	files := http.FileServer(http.Dir(data.Config.Static))
 	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
+	privateFiles := http.FileServer(http.Dir(data.Config.Private))
+	mux.Handle("/private/", http.StripPrefix("/private/", privateFiles))
+
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/sign-in", sign_in)
 	mux.HandleFunc("/sign-up", sign_up)

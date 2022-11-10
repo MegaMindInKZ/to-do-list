@@ -8,7 +8,7 @@
 
     </div>
     <div>
-        <form action="/profile-update" method="post">
+        <form action="/profile-update" method="post" enctype="multipart/form-data">
             <div>
                 <input type="text" name="name" value="{{ .Name }}" placeholder="Name" required>
             </div>
@@ -20,6 +20,9 @@
             </div>
             <div>
                 <input type="password" name="password" id="" placeholder="Password" required>
+            </div>
+            <div>
+                <input type="file" name="avatar" >
             </div>
             <button type="submit">Submit</button>
         </form>

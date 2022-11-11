@@ -41,7 +41,7 @@ func login(writer http.ResponseWriter, request *http.Request) {
 	err := request.ParseForm()
 	user, err := data.UserByEmailOrUsername(request.PostFormValue("username-or-email"))
 	if err != nil {
-
+		//danger method
 	}
 	if user.Password == data.Encrypt(request.PostFormValue("password")) {
 		session, err := user.CreateSession()

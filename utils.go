@@ -2,8 +2,9 @@ package main
 
 import (
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 	"to-do-list/data"
 )
 
@@ -23,21 +24,17 @@ func isTrue(s string) bool {
 }
 
 func pasteFile(request *http.Request) (filename string, err error) {
-	file, _, err := request.FormFile("avatar")
+	in, header, err := request.FormFile("avatar")
 	if err != nil {
 		return
 	}
-	defer file.Close()
-	tempFile, err := ioutil.TempFile("private/avatar", "avatar-*.jpg")
+	defer in.Close()
+	out, err := os.Create(data.Config.Private + "/avatar/" + header.Filename)
+
 	if err != nil {
 		return
 	}
-	defer tempFile.Close()
-	fileBytes, err := ioutil.ReadAll(file)
-	if err != nil {
-		return
-	}
-	tempFile.Write(fileBytes)
-	filename = tempFile.Name()
-	return
+	defer out.Close()
+	io.Copy(out, in)
+	return out.Name(), nil
 }

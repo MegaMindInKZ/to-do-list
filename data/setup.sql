@@ -32,4 +32,4 @@ create table tasks(
     isFinished  boolean default false,
     created_at  timestamp
 );
-
+alter table users alter "avatar" set default 'private/avatar/default-avatar.jpg';

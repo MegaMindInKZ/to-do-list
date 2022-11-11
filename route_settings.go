@@ -17,7 +17,7 @@ type UserSettings struct {
 func settingsUpdateUserPage(writer http.ResponseWriter, request *http.Request) {
 	session, err := session(writer, request)
 	if err != nil {
-		//danger method
+		http.Redirect(writer, request, "/login", 302)
 		return
 	}
 	user, err := data.UserByID(session.User_ID)
@@ -57,10 +57,16 @@ func settingsUpdateUser(writer http.ResponseWriter, request *http.Request) {
 		user.Username = request.PostFormValue("username")
 		filename, err := pasteFile(request)
 		if err != nil {
+			fmt.Println(err)
 			//danger method
+			return
 		}
 		user.Avatar = filename
 		err = user.Update()
+		if err != nil {
+			fmt.Println(err)
+			//danger method
+		}
 	}
 	http.Redirect(writer, request, "/profile-tasks", 302)
 }

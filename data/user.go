@@ -27,14 +27,14 @@ func UserByEmailOrUsername(usernameOrEmail string) (user User, err error) {
 
 func UserByUsername(username string) (user User, err error) {
 	err = DB.QueryRow("SELECT * FROM USERS WHERE USERNAME=$1", username).Scan(
-		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt,
+		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.Avatar, &user.CreatedAt,
 	)
 	return
 }
 
 func UserByID(user_id int) (user User, err error) {
 	err = DB.QueryRow("SELECT * FROM USERS WHERE ID = $1", user_id).Scan(
-		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.CreatedAt, &user.Avatar,
+		&user.ID, &user.UUID, &user.Username, &user.Name, &user.Email, &user.Password, &user.Avatar, &user.CreatedAt,
 	)
 	return
 }

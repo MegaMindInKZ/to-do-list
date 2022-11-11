@@ -29,6 +29,9 @@ func pasteFile(request *http.Request) (filename string, err error) {
 		return
 	}
 	defer in.Close()
+	//if filepath.Ext(header.Filename) != "jpg" && filepath.Ext(header.Filename) != "png" {
+	//	return "", errors.New("Can upload only png and jpg file formats")
+	//}
 	out, err := os.Create(data.Config.Private + "/avatar/" + header.Filename)
 
 	if err != nil {

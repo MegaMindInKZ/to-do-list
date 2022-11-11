@@ -23,6 +23,7 @@ func main() {
 	mux.HandleFunc("/profile-add-task-page", profileAddTaskPage)
 	mux.HandleFunc("/profile-add-task", profileAddTask)
 	mux.HandleFunc("/profile-delete-task", profileDeleteTask)
+	//mux.HandleFunc("/profile-settings", profileSettings)
 	mux.HandleFunc("/profile-update-page", settingsUpdateUserPage)
 	mux.HandleFunc("/profile-update", settingsUpdateUser)
 	server := &http.Server{

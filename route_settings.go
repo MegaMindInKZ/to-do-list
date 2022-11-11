@@ -14,6 +14,16 @@ type UserSettings struct {
 	Avatar   string
 }
 
+//func profileSettings(writer http.ResponseWriter, request *http.Request) {
+//	session, err := session(writer, request)
+//	if err != nil {
+//		http.Redirect(writer, request, "/login", 302)
+//		return
+//	}
+//	user, err := data.UserByID(session.User_ID)
+//
+//}
+
 func settingsUpdateUserPage(writer http.ResponseWriter, request *http.Request) {
 	session, err := session(writer, request)
 	if err != nil {
@@ -26,12 +36,6 @@ func settingsUpdateUserPage(writer http.ResponseWriter, request *http.Request) {
 		//danger method
 		return
 	}
-	userTemplate := UserSettings{
-		Username: user.Username,
-		Name:     user.Name,
-		Email:    user.Email,
-		Avatar:   user.Avatar,
-	}
 	t, err := template.ParseFiles(
 		"templates/base.html", "templates/private.navbar.html",
 		"templates/profile-base.html", "templates/profile-settings-update-profile.html",
@@ -40,7 +44,7 @@ func settingsUpdateUserPage(writer http.ResponseWriter, request *http.Request) {
 		//danger method
 		return
 	}
-	t.ExecuteTemplate(writer, "base", userTemplate)
+	t.ExecuteTemplate(writer, "base", user)
 	return
 }
 func settingsUpdateUser(writer http.ResponseWriter, request *http.Request) {
@@ -57,7 +61,6 @@ func settingsUpdateUser(writer http.ResponseWriter, request *http.Request) {
 		user.Username = request.PostFormValue("username")
 		filename, err := pasteFile(request)
 		if err != nil {
-			fmt.Println(err)
 			//danger method
 			return
 		}

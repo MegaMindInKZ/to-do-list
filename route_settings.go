@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"to-do-list/data"
@@ -14,15 +13,23 @@ type UserSettings struct {
 	Avatar   string
 }
 
-//func profileSettings(writer http.ResponseWriter, request *http.Request) {
-//	session, err := session(writer, request)
-//	if err != nil {
-//		http.Redirect(writer, request, "/login", 302)
-//		return
-//	}
-//	user, err := data.UserByID(session.User_ID)
-//
-//}
+func profileSettings(writer http.ResponseWriter, request *http.Request) {
+	session, err := session(writer, request)
+	if err != nil {
+		http.Redirect(writer, request, "/login", 302)
+		return
+	}
+	user, err := data.UserByID(session.User_ID)
+	t, err := template.ParseFiles(
+		"templates/base.html", "templates/private.navbar.html",
+		"templates/profile-base", "templates/profiles-settings.html",
+	)
+	if err != nil {
+		//danger method
+		return
+	}
+	t.ExecuteTemplate(writer, "base", user)
+}
 
 func settingsUpdateUserPage(writer http.ResponseWriter, request *http.Request) {
 	session, err := session(writer, request)
@@ -31,14 +38,13 @@ func settingsUpdateUserPage(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	user, err := data.UserByID(session.User_ID)
-	fmt.Print(err)
 	if err != nil {
 		//danger method
 		return
 	}
 	t, err := template.ParseFiles(
 		"templates/base.html", "templates/private.navbar.html",
-		"templates/profile-base.html", "templates/profile-settings-update-profile.html",
+		"templates/profile-base.html", "templates/profile-settings-update.html",
 	)
 	if err != nil {
 		//danger method
@@ -60,16 +66,14 @@ func settingsUpdateUser(writer http.ResponseWriter, request *http.Request) {
 		user.Email = request.PostFormValue("email")
 		user.Username = request.PostFormValue("username")
 		filename, err := pasteFile(request)
+		if err == nil {
+			user.Avatar = filename
+		}
+		err = user.Update()
 		if err != nil {
 			//danger method
 			return
 		}
-		user.Avatar = filename
-		err = user.Update()
-		if err != nil {
-			fmt.Println(err)
-			//danger method
-		}
 	}
-	http.Redirect(writer, request, "/profile-tasks", 302)
+	http.Redirect(writer, request, "/edit-profile", 302)
 }

@@ -32,4 +32,19 @@ create table tasks(
     isFinished  boolean default false,
     created_at  timestamp
 );
+create table receipts(
+    id          serial primary key,
+    user_id     integer references users(id),
+    name        varchar(255),
+    photo       varchar(255),
+    instruction text
+);
+create table ingredients(
+    id          serial primary key,
+    name        varchar(255),
+    receipt_id  integer references receipts(id),
+    amount      integer,
+    unit        varchar(10),
+    created_at  timestamp
+);
 alter table users alter "avatar" set default 'private/avatar/default-avatar.jpg';

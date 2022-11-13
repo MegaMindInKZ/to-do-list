@@ -46,19 +46,7 @@ func UserByEmail(email string) (user User, err error) {
 	return
 }
 func (user *User) Create() (err error) {
-	var existsUsername bool
-	var existsEmail bool
-	err = DB.QueryRow("SELECT EXISTS (SELECT EMAIL FROM USERS WHERE EMAIL=$1)", user.Email).Scan(&existsEmail)
-	if err != nil {
-		return
-	}
-	err = DB.QueryRow(
-		"SELECT EXISTS (SELECT USERNAME FROM USERS WHERE USERNAME=$1)", user.Username,
-	).Scan(&existsUsername)
-	if err != nil {
-		return
-	}
-	if existsUsername || existsEmail {
+	if existsUsernameNotID(user.Username, user.ID) || existsEmailNotID(user.Email, user.ID) {
 		//danger method
 		return
 	}
@@ -84,23 +72,7 @@ func (user *User) Delete() (err error) {
 }
 
 func (user *User) Update() (err error) {
-	var existsUsername bool
-	var existsEmail bool
-	err = DB.QueryRow(
-		"SELECT EXISTS (SELECT EMAIL FROM USERS WHERE EMAIL=$1 AND ID != $2)", user.Email, user.ID,
-	).Scan(&existsEmail)
-	if err != nil {
-		//danger method
-		return
-	}
-	err = DB.QueryRow(
-		"SELECT EXISTS (SELECT USERNAME FROM USERS WHERE USERNAME=$1 AND ID != $2)", user.Username, user.ID,
-	).Scan(&existsUsername)
-	if err != nil {
-		//danger method
-		return
-	}
-	if existsUsername || existsEmail {
+	if existsUsernameNotID(user.Username, user.ID) || existsEmailNotID(user.Email, user.ID) {
 		//danger method
 		return
 	}
@@ -132,6 +104,17 @@ func (user *User) Session() (session Session, err error) {
 	return
 }
 
-// func (s Storage) InsertUser(user User) (err error) {
-
-// }
+func existsUsernameNotID(username string, id int) bool {
+	var existsUsername bool
+	DB.QueryRow(
+		"SELECT EXISTS (SELECT EMAIL FROM USERS WHERE USERNAME=$1 AND ID != $2)", username, id,
+	).Scan(&existsUsername)
+	return existsUsername
+}
+func existsEmailNotID(email string, id int) bool {
+	var existsEmail bool
+	DB.QueryRow(
+		"SELECT EXISTS (SELECT EMAIL FROM USERS WHERE EMAIL=$1 AND ID != $2)", email, id,
+	).Scan(&existsEmail)
+	return existsEmail
+}

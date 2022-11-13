@@ -32,7 +32,7 @@ func NewConfig() Config {
 func InitDB(database *sql.DB) {
 	st, ioErr := ioutil.ReadFile("data/setup.sql")
 	if ioErr != nil {
-		fmt.Println("Cannont read data/setup.sql")
+		fmt.Println("Cannot read data/setup.sql")
 		os.Exit(1)
 	}
 	database.Exec(string(st))

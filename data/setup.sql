@@ -37,7 +37,9 @@ create table receipts(
     user_id     integer references users(id),
     name        varchar(255),
     photo       varchar(255),
-    instruction text
+    duration    integer,
+    instruction text,
+    created_at timestamp
 );
 create table ingredients(
     id          serial primary key,

@@ -5,6 +5,7 @@ type Receipt struct {
 	User_ID     int
 	Name        string
 	Photo       string
+	Duration    int
 	Instruction string
 	CreatedAt   string
 }
@@ -18,13 +19,13 @@ type Ingredient struct {
 }
 
 func (receipt *Receipt) Create() (err error) {
-	st, err := DB.Prepare("INSERT INTO RECEIPTS(USER_ID, NAME, PHOTO, INSTRUCTION) VALUES ($1, $2, $3, $4) RETURNING ID, CREATED_AT")
+	st, err := DB.Prepare("INSERT INTO RECEIPTS(USER_ID, NAME, PHOTO, DURATION, INSTRUCTION) VALUES ($1, $2, $3, $4, $5) RETURNING ID, CREATED_AT")
 	if err != nil {
 		//danger method
 		return
 	}
 	defer st.Close()
-	err = st.QueryRow(receipt.User_ID, receipt.Name, receipt.Photo, receipt.Instruction).Scan(
+	err = st.QueryRow(receipt.User_ID, receipt.Name, receipt.Photo, receipt.Duration, receipt.Instruction).Scan(
 		&receipt.ID, &receipt.CreatedAt,
 	)
 	return
@@ -41,14 +42,18 @@ func (receipt *Receipt) Delete() (err error) {
 }
 
 func ReceiptsByUserID(userID int) (receipts []Receipt, err error) {
-	rows, err := DB.Query("SELECT ID, USER_ID, NAME, PHOTO, INSTRUCTION FROM RECEIPTS WHERE USER_ID=$1", userID)
+	rows, err := DB.Query(
+		"SELECT ID, USER_ID, NAME, PHOTO, DURATION, INSTRUCTION FROM RECEIPTS WHERE USER_ID=$1", userID,
+	)
 	if err != nil {
 		return
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var receipt Receipt
-		err = rows.Scan(&receipt.ID, &receipt.User_ID, &receipt.Name, &receipt.Photo, &receipt.Instruction)
+		err = rows.Scan(
+			&receipt.ID, &receipt.User_ID, &receipt.Name, &receipt.Photo, &receipt.Duration, &receipt.Instruction,
+		)
 		if err != nil {
 			return
 		}
@@ -58,14 +63,16 @@ func ReceiptsByUserID(userID int) (receipts []Receipt, err error) {
 }
 
 func AllReceipts() (receipts []Receipt, err error) {
-	rows, err := DB.Query("SELECT ID, USER_ID, NAME, PHOTO, INSTRUCTION FROM RECEIPTS")
+	rows, err := DB.Query("SELECT ID, USER_ID, NAME, PHOTO, DURATION, INSTRUCTION FROM RECEIPTS")
 	if err != nil {
 		return
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var receipt Receipt
-		err = rows.Scan(&receipt.ID, &receipt.User_ID, &receipt.Name, &receipt.Photo, &receipt.Instruction)
+		err = rows.Scan(
+			&receipt.ID, &receipt.User_ID, &receipt.Name, &receipt.Photo, &receipt.Duration, &receipt.Instruction,
+		)
 		if err != nil {
 			return
 		}

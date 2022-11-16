@@ -1,0 +1,36 @@
+{{ define "head"}}
+<title>Add New Task</title>
+<script>
+    number = 0
+    function addNewIngredientForm(evt){
+        mainDiv = document.getElementById("ingredients-container")
+        mainDiv.innerHTML += `<div>
+    <input type="text" name="ingredient-name-` + number + `">
+    <input type="text" name="ingredient-amount-` + number + `">
+    <select name="ingredient-unit-` + number + `" id="">
+        <option value="gram">gram</option>
+        <option value="kilogram">kilogram</option>
+        <option value="mililiter">mililiter</option>
+        <option value="liters">liter</option>
+        <option value="pieces">pieces</option>
+    </select>
+</div>`
+        number++  
+        evt.preventDefault()  
+    }
+</script>
+{{ end }}
+{{ define "content" }}
+<div>
+    <form action="" method="post" enctype="multipart/form-data">
+        <input type="text" name="name" id="">
+        <textarea name="instruction" id="" rows="5" cols="100"></textarea>
+        <input type="number" name="duration" min="0">
+        <input type="file" name="photo" id="" accept=".jpg, .png">
+        <div id="ingredients-container"></div>
+        <div onclick="addNewIngredientForm(this.event)">Add Ingredient</div>
+
+    </form>
+</div>
+
+{{ end }}

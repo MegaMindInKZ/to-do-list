@@ -1,5 +1,7 @@
 package data
 
+import "time"
+
 type Receipt struct {
 	ID          int
 	User_ID     int
@@ -8,26 +10,27 @@ type Receipt struct {
 	Duration    int
 	Instruction string
 	CreatedAt   string
-}
-
-type Ingredient struct {
-	ID         int
-	Name       string
-	Receipt_ID int
-	Amount     int
-	Unit       string
+	Ingredients []Ingredient
 }
 
 func (receipt *Receipt) Create() (err error) {
-	st, err := DB.Prepare("INSERT INTO RECEIPTS(USER_ID, NAME, PHOTO, DURATION, INSTRUCTION) VALUES ($1, $2, $3, $4, $5) RETURNING ID, CREATED_AT")
+	st, err := DB.Prepare("INSERT INTO RECEIPTS(USER_ID, NAME, PHOTO, DURATION, INSTRUCTION, CREATED_AT) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ID, CREATED_AT")
 	if err != nil {
 		//danger method
 		return
 	}
 	defer st.Close()
-	err = st.QueryRow(receipt.User_ID, receipt.Name, receipt.Photo, receipt.Duration, receipt.Instruction).Scan(
+	err = st.QueryRow(
+		receipt.User_ID, receipt.Name, receipt.Photo, receipt.Duration, receipt.Instruction, time.Now(),
+	).Scan(
 		&receipt.ID, &receipt.CreatedAt,
 	)
+	for _, ingredient := range receipt.Ingredients {
+		err = ingredient.Create()
+		if err != nil {
+			return
+		}
+	}
 	return
 }
 
@@ -73,6 +76,10 @@ func AllReceipts() (receipts []Receipt, err error) {
 		err = rows.Scan(
 			&receipt.ID, &receipt.User_ID, &receipt.Name, &receipt.Photo, &receipt.Duration, &receipt.Instruction,
 		)
+		if err != nil {
+			return
+		}
+		receipt.Ingredients, err = IngredientsByReceiptID(receipt.ID)
 		if err != nil {
 			return
 		}

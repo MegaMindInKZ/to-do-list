@@ -94,13 +94,13 @@ func (task *Task) Delete() (err error) {
 	return
 }
 
-func (task *Task) Update(t Task) (err error) {
-	stmt, err := DB.Prepare("UPDATE TASKS SET TITLE = $1 WHERE ID = $2")
+func (task *Task) Update() (err error) {
+	stmt, err := DB.Prepare("UPDATE TASKS SET TITLE = $1, DESCRIPTION=$2, ISIMPORTANT=$3 WHERE ID = $4")
 	if err != nil {
 		return
 	}
 	defer stmt.Close()
-	_, err = stmt.Exec(t.Title, task.ID)
+	_, err = stmt.Exec(task.Title, task.Description, task.IsImportant, task.ID)
 	return
 }
 

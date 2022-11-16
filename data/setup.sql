@@ -47,6 +47,5 @@ create table ingredients(
     receipt_id  integer references receipts(id),
     amount      integer,
     unit        varchar(10),
-    created_at  timestamp
 );
 alter table users alter "avatar" set default 'private/avatar/default-avatar.jpg';

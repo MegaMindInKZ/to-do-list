@@ -1,7 +1,8 @@
 drop table if exists tasks;
 drop table if exists sessions;
+drop table if exists ingredients;
+drop table if exists receipts;
 drop table if exists users;
-drop table if exists tasks;
 
 create table users (
   id         serial primary key,
@@ -46,6 +47,6 @@ create table ingredients(
     name        varchar(255),
     receipt_id  integer references receipts(id),
     amount      integer,
-    unit        varchar(10),
+    unit        varchar(10)
 );
 alter table users alter "avatar" set default 'private/avatar/default-avatar.jpg';

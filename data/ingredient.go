@@ -9,7 +9,7 @@ type Ingredient struct {
 }
 
 func (ingredient *Ingredient) Create() (err error) {
-	st, err := DB.Prepare("INSERT INTO INGREDIENTS(NAME, RECEIPT_ID, AMOUNT, UNTT) VALUES ($1. $2, $3, $4) RETURNING ID")
+	st, err := DB.Prepare("INSERT INTO INGREDIENTS(NAME, RECEIPT_ID, AMOUNT, UNIT) VALUES ($1, $2, $3, $4) RETURNING ID")
 	if err != nil {
 		return
 	}

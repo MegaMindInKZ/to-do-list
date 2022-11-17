@@ -25,6 +25,9 @@ func main() {
 	mux.HandleFunc("/profile-delete-task", profileDeleteTask)
 	mux.HandleFunc("/edit-profile", settingsUpdateUserPage)
 	mux.HandleFunc("/profile-update", settingsUpdateUser)
+	mux.HandleFunc("/receipts-main-page", foodMainPage)
+	mux.HandleFunc("/receipt-add-page", receiptAddPage)
+	mux.HandleFunc("/receipt-add", receiptAdd)
 	server := &http.Server{
 		Addr:    data.Config.Address,
 		Handler: mux,

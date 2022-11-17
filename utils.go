@@ -38,3 +38,19 @@ func pasteFile(request *http.Request) (filename string, err error) {
 	io.Copy(out, in)
 	return out.Name(), nil
 }
+
+func pasteFileFood(request *http.Request) (filename string, err error) {
+	in, header, err := request.FormFile("photo")
+	if err != nil {
+		return
+	}
+	defer in.Close()
+	out, err := os.Create(data.Config.Private + "/food/" + header.Filename)
+
+	if err != nil {
+		return
+	}
+	defer out.Close()
+	io.Copy(out, in)
+	return out.Name(), nil
+}

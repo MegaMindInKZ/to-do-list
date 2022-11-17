@@ -31,3 +31,17 @@
     width: 45%;
     margin-right: 10px;
 }
+.introductory-texts-container a{
+    margin-top: 30px;
+    text-decoration: none;
+    display: flex;
+    color: rgba(31, 31, 31, 0.856);
+    background-color: greenyellow;
+    height: 60px;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 20px;
+    width: 200px;
+    justify-content: center;
+    font-family: 'Poppins',sans-serif;
+}

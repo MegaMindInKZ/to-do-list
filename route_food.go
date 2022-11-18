@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -19,12 +18,12 @@ func foodMainPage(writer http.ResponseWriter, request *http.Request) {
 		t, _ := template.ParseFiles(
 			"templates/base.html", "templates/private.navbar.html", "templates/food-main-page.html",
 		)
-		fmt.Println(t.ExecuteTemplate(writer, "base", receipts))
+		err = t.ExecuteTemplate(writer, "base", receipts)
 	} else {
 		t, _ := template.ParseFiles(
 			"templates/base.html", "templates/public.navbar.html", "templates/food-main-page.html",
 		)
-		t.ExecuteTemplate(writer, "base", receipts)
+		err = t.ExecuteTemplate(writer, "base", receipts)
 	}
 }
 
@@ -44,12 +43,10 @@ func receiptAdd(writer http.ResponseWriter, request *http.Request) {
 		http.Redirect(writer, request, "/login", 302)
 		return
 	}
-	request.ParseForm()
 	var receipt data.Receipt
 	receipt.User_ID = session.User_ID
-	receipt.Name = request.PostFormValue("name")
-	filename, err := pasteFileFood(request)
-	if err == nil {
+	receipt.Name = request.PostFormValue("title")
+	if filename, err := pasteFileFood(request); err == nil {
 		receipt.Photo = filename
 	}
 	receipt.Duration, _ = strconv.Atoi(request.PostFormValue("duration"))
@@ -68,7 +65,6 @@ func receiptAdd(writer http.ResponseWriter, request *http.Request) {
 		ingredient.Unit = request.PostFormValue("ingredient-unit-" + strconv.Itoa(i))
 		err = ingredient.Create()
 		if err != nil {
-			fmt.Println(err)
 			//danger method
 			return
 		}

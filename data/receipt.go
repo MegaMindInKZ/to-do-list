@@ -1,6 +1,9 @@
 package data
 
-import "time"
+import (
+	"strings"
+	"time"
+)
 
 type Receipt struct {
 	ID          int
@@ -66,7 +69,7 @@ func ReceiptsByUserID(userID int) (receipts []Receipt, err error) {
 }
 
 func AllReceipts() (receipts []Receipt, err error) {
-	rows, err := DB.Query("SELECT ID, USER_ID, NAME, PHOTO, DURATION, INSTRUCTION FROM RECEIPTS")
+	rows, err := DB.Query("SELECT ID, USER_ID, NAME, PHOTO, DURATION, INSTRUCTION, CREATED_AT FROM RECEIPTS")
 	if err != nil {
 		return
 	}
@@ -75,7 +78,9 @@ func AllReceipts() (receipts []Receipt, err error) {
 		var receipt Receipt
 		err = rows.Scan(
 			&receipt.ID, &receipt.User_ID, &receipt.Name, &receipt.Photo, &receipt.Duration, &receipt.Instruction,
+			&receipt.CreatedAt,
 		)
+		receipt.CreatedAt = strings.Split(receipt.CreatedAt, "T")[0]
 		if err != nil {
 			return
 		}

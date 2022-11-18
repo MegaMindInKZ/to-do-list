@@ -24,7 +24,7 @@
 {{ define "content" }}
 <div>
     <form action="/receipt-add" method="post" enctype="multipart/form-data">
-        <input type="text" name="name" id="" required>
+        <input type="text" name="title" id="" required>
         <textarea name="instruction" id="" rows="5" cols="100"></textarea>
         <input type="number" name="duration" min="0" value="0" required>
         <input type="file" name="photo" id="" accept=".jpg, .png" required>

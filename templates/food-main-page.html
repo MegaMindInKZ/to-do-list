@@ -13,13 +13,16 @@
     <img src="/static/images/main-food.png" alt="">
 </div>
 <div class="menu-main-container">
-    <div class="food-main-container">
-        <img class="food-image" src="/static/images/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg" alt="">
-        <div class="food-title-container">Hot-cross buns and Easter fun</div>
-        <div class="food-description-container">If you thought Easter was all about chocolate, you are badly mistaken</div>
-        <div class="food-additial-info-container">
-            <div class="food-created-date-container">6-10-2021</div>
+    {{ range . }}
+        <div class="food-main-container">
+            <img class="food-image" src="{{.Photo}}" alt="">
+            <div class="food-title-container">{{.Name}}</div>
+            <div class="food-description-container">{{.Instruction}}</div>
+            <div class="food-additial-info-container">
+                <div class="food-created-date-container">{{.CreatedAt}}</div>
+            </div>
         </div>
-    </div>
+    {{ end }}
+
 </div>
 {{ end }}

@@ -49,7 +49,7 @@ func DeleteIngredientByID(id int) (err error) {
 }
 
 func IngredientsByReceiptID(id int) (ingredients []Ingredient, err error) {
-	rows, err := DB.Query("SELECT ID, NAME, RECEIPT_ID, AMOUNT, UNIT WHERE RECEIPT_ID=$1", id)
+	rows, err := DB.Query("SELECT ID, NAME, RECEIPT_ID, AMOUNT, UNIT FROM INGREDIENTS WHERE RECEIPT_ID=$1", id)
 	if err != nil {
 		return
 	}
